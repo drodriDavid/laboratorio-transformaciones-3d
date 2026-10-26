@@ -4,6 +4,8 @@ Aplicación educativa estática para practicar transformaciones en Informática 
 
 El botón **Explorar la P2** abre un recorrido visual de cinco conceptos: construcción de mallas, árbol jerárquico, selección por pieza, arrastre con límites y animación temporal. Cada pop-up tiene una acción que selecciona o mueve la parte correspondiente en la escena.
 
+El botón **Pantalla completa** convierte el visor 3D en una experiencia inmersiva; los pop-ups permanecen disponibles encima del render para explicar cada concepto mientras se observa la escena.
+
 ## Ejecutar localmente
 
 No necesita instalación ni backend. Como el navegador bloquea algunos recursos al abrir `index.html` directamente, sirve la carpeta con cualquier servidor estático:

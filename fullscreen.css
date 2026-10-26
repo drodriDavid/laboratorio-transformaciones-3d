@@ -1,0 +1,1 @@
+.button.fullscreen{background:#21434a;border-color:#3d8990}.stage:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#0b1119}.stage:fullscreen .canvas-wrap{height:calc(100vh - 120px);min-height:0}.stage:fullscreen .legend{display:none}.stage:fullscreen .p2-toolbar{position:absolute;z-index:2;left:0;right:0;bottom:0;background:#0b1119dd}
