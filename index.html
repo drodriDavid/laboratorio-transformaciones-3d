@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Laboratorio interactivo de transformaciones 3D con WebGL y glMatrix">
+  <title>Transformaciones 3D · Informática Gráfica</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">INFORMÁTICA GRÁFICA · P2</p>
+      <h1>Laboratorio de transformaciones 3D</h1>
+      <p class="lede">Experimenta con un cubo y observa cómo el orden de las operaciones cambia el resultado.</p>
+    </div>
+    <a class="github-link" href="https://github.com" target="_blank" rel="noreferrer">Listo para GitHub Pages ↗</a>
+  </header>
+
+  <main class="layout">
+    <section class="stage card" aria-labelledby="scene-title">
+      <div class="section-heading">
+        <div><span class="tag">ESCENA 3D</span><h2 id="scene-title">Cubo transformado</h2></div>
+        <span id="drag-hint" class="hint">Arrastra para orbitar · rueda para zoom</span>
+      </div>
+      <div class="canvas-wrap"><canvas id="gl-canvas" aria-label="Escena 3D interactiva"></canvas><div id="webgl-error" class="webgl-error hidden"></div></div>
+      <div class="legend"><span><i class="dot red"></i>X</span><span><i class="dot green"></i>Y</span><span><i class="dot blue"></i>Z</span><span><i class="wire"></i>cubo original</span><span><i class="solid"></i>cubo transformado</span></div>
+    </section>
+
+    <aside class="controls card" aria-label="Controles de transformación">
+      <div class="section-heading"><div><span class="tag">CONTROLES</span><h2>Transforma el cubo</h2></div><button id="reset-button" class="button ghost">Reset</button></div>
+      <div class="presets"><span class="label">Ejemplos</span><button class="button preset" data-preset="identity">Identidad</button><button class="button preset" data-preset="rotate-translate">Girar + mover</button><button class="button preset" data-preset="non-uniform">Escala no uniforme</button></div>
+      <div class="control-group"><h3>Traslación <code>T</code></h3><div class="sliders" id="translation-controls"></div></div>
+      <div class="control-group"><h3>Rotación <code>R</code> <span class="unit">grados</span></h3><div class="sliders" id="rotation-controls"></div></div>
+      <div class="control-group"><h3>Escalado <code>S</code></h3><div class="sliders" id="scale-controls"></div></div>
+      <div class="order-box"><label for="order-select">Orden de llamadas glMatrix</label><select id="order-select"><option value="TRS">translate → rotate → scale (TRS)</option><option value="TSR">translate → scale → rotate (TSR)</option><option value="RTS">rotate → translate → scale (RTS)</option><option value="RST">rotate → scale → translate (RST)</option><option value="STR">scale → translate → rotate (STR)</option><option value="SRT">scale → rotate → translate (SRT)</option></select><p class="microcopy">En matrices columna y vectores columna, la primera llamada queda a la derecha: se aplica la última transformación primero.</p></div>
+      <div class="code-lab"><div class="code-lab-heading"><h3>Prueba tus llamadas OpenGL / glMatrix</h3><span class="live-badge">EJECUTABLE</span></div><p class="microcopy">Edita las líneas y pulsa ejecutar. Se admiten <code>mat4.translate</code>, <code>rotateX/Y/Z</code> y <code>scale</code>.</p><textarea id="code-input" spellcheck="false" aria-label="Código glMatrix editable">mat4.translate(M, M, [1.2, 0.3, 0.0]);
+mat4.rotateY(M, M, [0.61]);
+mat4.scale(M, M, [1.4, 0.7, 1.0]);</textarea><div class="code-actions"><button id="run-code" class="button run">▶ Ejecutar en la escena</button><button id="code-example" class="button">Ejemplo</button></div><p id="code-status" class="code-status">Listo para ejecutar.</p></div>
+    </aside>
+
+    <section class="math card" aria-labelledby="math-title">
+      <div class="section-heading"><div><span class="tag">INSPECCIÓN</span><h2 id="math-title">Qué está pasando</h2></div><span id="order-summary" class="pill"></span></div>
+      <div class="math-grid"><div class="explain"><div class="callout"><strong id="effective-order"></strong><span id="effective-detail"></span></div><div class="matrix-row"><div><h3>Matriz modelo <code>M</code></h3><pre id="model-matrix"></pre></div><div><h3>Vértice de ejemplo</h3><pre id="vertex-result"></pre></div></div></div><div class="comparison"><h3>Comparación de órdenes</h3><p>Dos composiciones con los mismos valores pueden llevar el vértice a lugares distintos.</p><div class="compare-values"><div><span class="compare-label">T · R · S</span><strong id="trs-result"></strong></div><div><span class="compare-label">S · R · T</span><strong id="srt-result"></strong></div></div><div class="difference"><span>Diferencia entre resultados</span><strong id="difference-result"></strong></div></div></div>
+    </section>
+
+    <section class="theory card"><span class="tag">IDEA CLAVE</span><h2>Orden de llamadas ≠ orden visual</h2><div class="theory-columns"><p><strong>glMatrix compone matrices.</strong> Una llamada como <code>mat4.translate(M, M, t)</code> modifica <code>M</code>. Al trabajar con vectores columna, el producto que queda a la derecha actúa primero sobre el vértice.</p><p><strong>Prueba mental.</strong> Si eliges <code>TRS</code>, el código llama a T, luego R y luego S, pero el vértice recibe S → R → T. Cambia el orden y observa el cubo, la matriz y las coordenadas.</p><p><strong>Consejo para tu P2.</strong> Escribe siempre la convención (vectores fila/columna), la matriz acumulada y el orden de aplicación. Sin esa información, “primero” puede ser ambiguo.</p></div></section>
+  </main>
+  <footer><span>Laboratorio educativo autocontenido · WebGL + glMatrix</span><a href="README.md">Ver instrucciones del proyecto</a></footer>
+  <script src="https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/gl-matrix-min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
