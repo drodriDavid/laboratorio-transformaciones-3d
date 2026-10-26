@@ -50,7 +50,7 @@ mat4.scale(M, M, [1.4, 0.7, 1.0]);</textarea><div class="code-actions"><button i
     <section class="theory card"><span class="tag">IDEA CLAVE</span><h2>Orden de llamadas ≠ orden visual</h2><div class="theory-columns"><p><strong>glMatrix compone matrices.</strong> Una llamada como <code>mat4.translate(M, M, t)</code> modifica <code>M</code>. Al trabajar con vectores columna, el producto que queda a la derecha actúa primero sobre el vértice.</p><p><strong>Prueba mental.</strong> Si eliges <code>TRS</code>, el código llama a T, luego R y luego S, pero el vértice recibe S → R → T. Cambia el orden y observa el cubo, la matriz y las coordenadas.</p><p><strong>Consejo para tu P2.</strong> Escribe siempre la convención (vectores fila/columna), la matriz acumulada y el orden de aplicación. Sin esa información, “primero” puede ser ambiguo.</p></div></section>
   </main>
   <footer><span>Laboratorio educativo autocontenido · WebGL + glMatrix</span><a href="README.md">Ver instrucciones del proyecto</a></footer>
-  <script src="https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/gl-matrix-min.js"></script>
-  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="three-app.js"></script>
 </body>
 </html>

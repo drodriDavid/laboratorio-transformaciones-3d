@@ -1,6 +1,6 @@
 # Laboratorio de transformaciones 3D
 
-Aplicación educativa estática para practicar transformaciones en Informática Gráfica. La interfaz está centrada en una escena 3D grande con excavadora jerárquica, malla cilíndrica, ejes y rejilla; incluye controles de articulación, selección, arrastre, animación, transformaciones, inspección de matrices y un editor ejecutable de llamadas `mat4.*`.
+Aplicación educativa estática para practicar transformaciones en Informática Gráfica. La interfaz está centrada en una escena 3D grande construida con Three.js, con excavadora jerárquica, malla cilíndrica, luces, ejes y rejilla; incluye controles de articulación, selección, arrastre, animación, transformaciones, inspección de matrices y un editor ejecutable de llamadas `mat4.*`.
 
 ## Ejecutar localmente
 
@@ -19,7 +19,7 @@ Abre `http://localhost:8000` en el navegador. También puedes usar la extensión
 3. En **Build and deployment**, elige **Deploy from a branch**, rama `main` y carpeta `/ (root)`.
 4. Guarda la configuración y espera a que GitHub muestre la URL publicada.
 
-La aplicación no usa backend, bundler ni variables de entorno. glMatrix se carga desde jsDelivr en `index.html`; para un uso completamente offline se puede descargar una copia de `gl-matrix-min.js` y cambiar el `script src` por un archivo local.
+La aplicación no usa backend, bundler ni variables de entorno. Three.js se carga desde jsDelivr en `index.html`, por lo que funciona directamente en GitHub Pages.
 
 ## Convención matemática
 
