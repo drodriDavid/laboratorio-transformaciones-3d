@@ -1,1 +1,39 @@
-.button.fullscreen{background:#21434a;border-color:#3d8990}.stage:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#0b1119}.stage:fullscreen .canvas-wrap{height:calc(100vh - 120px);min-height:0}.stage:fullscreen .legend{display:none}.stage:fullscreen .p2-toolbar{position:absolute;z-index:2;left:0;right:0;bottom:0;background:#0b1119dd}
+html,body{width:100%;height:100%;margin:0;overflow:hidden}
+body{background:#0b1119}
+.topbar,footer,.math,.theory,.legend{display:none}
+.layout{max-width:none;margin:0;padding:0;display:block}
+.stage,.stage:fullscreen{position:fixed;inset:0;width:100%;height:100%;border:0;border-radius:0;background:#0b1119;box-shadow:none;min-height:0}
+.stage .canvas-wrap,.stage:fullscreen .canvas-wrap{position:absolute;inset:0;width:100%;height:100%;min-height:0}
+.stage>.section-heading{position:absolute;z-index:1;top:0;left:0;right:0;padding:18px 24px;pointer-events:none;background:linear-gradient(#0b1119e8,transparent);align-items:center}
+.stage .section-heading h2{font-size:20px}
+.stage .p2-toolbar,.stage:fullscreen .p2-toolbar{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:12px 20px;min-height:64px;background:#0b1119e8;backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.p2-actions .button{width:auto}
+.button.fullscreen{background:#21434a;border-color:#3d8990}
+.concept-panel,.guide-modal,.controls{position:fixed;z-index:3;top:90px;bottom:90px;max-height:calc(100dvh - 180px);overflow:auto;scrollbar-width:thin;scrollbar-color:#466075 transparent;border:1px solid #496174;border-radius:16px;background:#101b26ed;backdrop-filter:blur(14px);box-shadow:0 16px 40px #0005}
+.concept-panel{left:18px;width:228px;height:fit-content;padding:20px}
+.concept-panel h2{font-size:22px;margin:6px 0}
+.concept-panel p{font-size:12px;color:var(--muted);margin:0 0 16px}
+.concept-list{display:grid;gap:7px;margin-bottom:18px}
+.concept-button{display:flex;align-items:center;gap:9px;width:100%;padding:11px 9px;border:1px solid transparent;border-radius:8px;background:#1c2b38;color:var(--text);text-align:left;font-size:12px;cursor:pointer}
+.concept-button span{color:var(--cyan);font-size:10px;font-family:monospace}
+.concept-button.active{border-color:var(--cyan);background:#22434a}
+.concept-panel .concept-tip{margin:16px 0 0;line-height:1.8}
+.guide-modal{inset:auto;top:90px;right:18px;bottom:auto;width:310px;padding:0;display:block;max-height:calc(100dvh - 180px)}
+.guide-card{width:100%;padding:20px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.guide-card h2{font-size:24px;line-height:1.15}
+.guide-card>p{font-size:13px;line-height:1.65}
+.guide-progress{display:block;margin-bottom:20px;padding-right:15px}
+.guide-progress>div{display:flex;margin-top:10px;gap:5px}
+.step-dot{margin-left:0}
+.guide-visual{white-space:pre-wrap;font-size:11px;padding:12px;margin:16px 0;overflow-wrap:anywhere}
+.guide-footer{flex-wrap:wrap}
+.guide-footer .button{flex-basis:100%}
+.controls{right:18px;left:auto;width:310px;display:block;padding:20px;margin:0}
+.controls .section-heading{display:flex;padding:0 0 15px}
+.controls .code-lab{margin:18px 0}
+.hidden,.guide-modal.hidden,.controls.hidden{display:none}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:1100px){.concept-panel{width:195px;left:12px;padding:14px}.guide-modal,.controls{right:12px;width:270px}.guide-card{padding:16px}.stage .hint{display:none}.p2-toolbar>div:first-child{display:none}.p2-actions{flex-direction:row;justify-content:center;width:100%}.p2-actions .button{font-size:11px;padding:7px}}
+@media(max-width:700px){.stage>.section-heading{padding:12px 14px}.stage .section-heading h2{font-size:17px}.concept-panel{top:70px;left:8px;width:132px;padding:10px;bottom:auto;max-height:calc(100dvh - 175px)}.concept-panel .tag,.concept-panel>p,.concept-panel h2{display:none}.concept-list{gap:5px;margin-bottom:8px}.concept-button{padding:9px 5px;gap:5px;font-size:10px}.concept-button span{font-size:9px}.concept-panel #controls-toggle{font-size:10px;width:100%;padding:8px 2px}.guide-modal,.controls{top:auto;bottom:96px;right:8px;width:min(280px,calc(100vw - 16px));max-height:40dvh}.guide-card{padding:14px}.guide-card h2{font-size:20px}.guide-progress{margin-bottom:12px}.guide-visual{margin:10px 0}.stage .p2-toolbar{padding:8px;min-height:80px}.p2-actions{gap:5px;justify-content:flex-start}.p2-actions .button{font-size:10px;padding:6px}.guide-close{right:10px;top:7px}}
+@media(max-width:700px){.guide-modal{max-height:30dvh}}
+@media(max-height:500px){.concept-panel,.guide-modal,.controls{top:60px;bottom:80px;max-height:calc(100dvh - 140px)}.stage .section-heading{padding-top:7px}.stage .section-heading h2{font-size:16px}}

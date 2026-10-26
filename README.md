@@ -4,7 +4,9 @@ Aplicación educativa estática para practicar transformaciones en Informática 
 
 El botón **Explorar la P2** abre un recorrido visual de cinco conceptos: construcción de mallas, árbol jerárquico, selección por pieza, arrastre con límites y animación temporal. Cada pop-up tiene una acción que selecciona o mueve la parte correspondiente en la escena.
 
-El botón **Pantalla completa** convierte el visor 3D en una experiencia inmersiva; los pop-ups permanecen disponibles encima del render para explicar cada concepto mientras se observa la escena.
+El visor 3D ocupa toda la ventana al entrar, sin desplazamiento de página. El menú de conceptos aparece a la izquierda y las explicaciones interactivas a la derecha; no bloquean el ratón sobre la escena. Se pueden cerrar y volver a abrir desde **Explorar la P2**. **Abrir controles** muestra los controles en el panel derecho. En móvil, la explicación aparece como una tarjeta inferior con desplazamiento interno.
+
+El botón **Ocultar navegador** activa además la pantalla completa nativa, conservando ambos paneles. Los navegadores requieren un clic para ocultar sus barras; el render ya ocupa la ventana por defecto sin necesitar ese permiso. Escape permite salir de la pantalla completa y cerrar los paneles.
 
 ## Ejecutar localmente
 
