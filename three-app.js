@@ -14,7 +14,19 @@
   function buildModel() { const platform = new THREE.Group(); platform.name = 'platform'; platform.add(box('platform', [3.4, .9, 2.4], orange)); platform.position.y = .45; root.add(platform); const boom = new THREE.Group(); boom.name = 'boom'; boom.position.set(0, 1, 0); const boomMesh = box('boomMesh', [2.9, .36, .55], orange); boomMesh.position.x = 1.4; boom.add(boomMesh); platform.add(boom); const stick = new THREE.Group(); stick.name = 'stick'; stick.position.x = 2.8; const stickMesh = box('stickMesh', [2.2, .32, .48], orange); stickMesh.position.x = 1; stick.add(stickMesh); boom.add(stick); const bucket = new THREE.Group(); bucket.name = 'bucket'; bucket.position.set(2, -.35, 0); bucket.add(box('bucketMesh', [.9, .9, 1], orange)); stick.add(bucket); parts.platform = platform; parts.boom = boom; parts.stick = stick; parts.bucket = bucket; const cylinder = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 2, 32, 4, true), blue); cylinder.position.set(-3.2, 1, 0); cylinder.name = 'mesh'; cylinder.castShadow = true; root.add(cylinder); parts.mesh = cylinder; meshObject = cylinder; }
   function addCubeMode() { const cube = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), blue); cube.name = 'transformCube'; cube.visible = false; root.add(cube); parts.transformCube = cube; }
   buildModel(); addCubeMode();
-  function selectPiece(name) { state.selected = name; Object.keys(parts).forEach((key) => { const object = parts[key]; object.traverse((child) => { if (child.isMesh) child.material = key === name || child.name === name ? selectedMaterial : (child.name === 'mesh' ? blue : orange); }); }); document.querySelectorAll('.piece').forEach((button) => button.classList.toggle('active', button.dataset.piece === name)); const labels = { platform: 'plataforma', boom: 'pluma', stick: 'brazo', bucket: 'cazo', mesh: 'malla cilíndrica' }; document.querySelector('#selection-status').textContent = `Pieza seleccionada: ${labels[name]}. Usa ← → o arrastra.`; }
+  function selectPiece(name) {
+    state.selected = name;
+    Object.keys(parts).forEach((key) => {
+      const object = parts[key];
+      object.traverse((child) => {
+        if (child.isMesh) child.material = key === name || child.name === name ? selectedMaterial : (child.name === 'mesh' ? blue : orange);
+      });
+    });
+    document.querySelectorAll('.piece').forEach((button) => button.classList.toggle('active', button.dataset.piece === name));
+    const labels = { platform: 'plataforma', boom: 'pluma', stick: 'brazo', bucket: 'cazo', mesh: 'malla cilíndrica' };
+    document.querySelector('#selection-status').textContent = `Pieza seleccionada: ${labels[name]}. Usa ← → o arrastra.`;
+    render();
+  }
   function applyState() { parts.platform.rotation.y = THREE.MathUtils.degToRad(state.p2.platform); parts.boom.rotation.z = THREE.MathUtils.degToRad(state.p2.boom); parts.stick.rotation.z = THREE.MathUtils.degToRad(state.p2.stick); parts.bucket.rotation.z = THREE.MathUtils.degToRad(state.p2.bucket); meshObject.rotation.y = THREE.MathUtils.degToRad(state.p2.mesh); const cube = parts.transformCube; cube.position.set(...state.translation); cube.rotation.set(...state.rotation.map(THREE.MathUtils.degToRad)); cube.scale.set(...state.scale); }
   function cameraOrbit() { const fittedDistance = distance / Math.min(1, camera.aspect); camera.position.set(Math.cos(pitch) * Math.sin(yaw) * fittedDistance + .5, Math.sin(pitch) * fittedDistance + 2, Math.cos(pitch) * Math.cos(yaw) * fittedDistance); camera.lookAt(.5, 1, 0); }
   function render() { const excavator = state.mode === 'excavator'; root.visible = true; Object.keys(parts).forEach((key) => { parts[key].visible = key === 'transformCube' ? !excavator : excavator; }); applyState(); cameraOrbit(); renderer.render(scene, camera); }
