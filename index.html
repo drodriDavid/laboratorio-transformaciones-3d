@@ -24,7 +24,8 @@
         <span id="drag-hint" class="hint">Arrastra para orbitar · rueda para zoom</span>
       </div>
       <div class="canvas-wrap"><canvas id="gl-canvas" aria-label="Escena 3D interactiva"></canvas><div id="webgl-error" class="webgl-error hidden"></div></div>
-      <div class="legend"><span><i class="dot red"></i>X</span><span><i class="dot green"></i>Y</span><span><i class="dot blue"></i>Z</span><span><i class="wire"></i>cubo original</span><span><i class="solid"></i>cubo transformado</span></div>
+      <div class="legend"><span><i class="dot red"></i>X</span><span><i class="dot green"></i>Y</span><span><i class="dot blue"></i>Z</span><span><i class="wire"></i>referencia</span><span><i class="solid"></i>objeto activo</span></div>
+      <div class="p2-toolbar"><div><span class="tag">RECORRIDO P2</span><strong id="scene-mode-label">Excavadora jerárquica</strong></div><div class="p2-actions"><button id="mode-excavator" class="button active">Malla + jerarquía</button><button id="mode-cube" class="button">Transformaciones</button><button id="animate-button" class="button">▶ Animar</button><button id="views-button" class="button">1/4 vistas</button></div></div>
     </section>
 
     <aside class="controls card" aria-label="Controles de transformación">
@@ -37,6 +38,7 @@
       <div class="code-lab"><div class="code-lab-heading"><h3>Prueba tus llamadas OpenGL / glMatrix</h3><span class="live-badge">EJECUTABLE</span></div><p class="microcopy">Edita las líneas y pulsa ejecutar. Se admiten <code>mat4.translate</code>, <code>rotateX/Y/Z</code> y <code>scale</code>.</p><textarea id="code-input" spellcheck="false" aria-label="Código glMatrix editable">mat4.translate(M, M, [1.2, 0.3, 0.0]);
 mat4.rotateY(M, M, [0.61]);
 mat4.scale(M, M, [1.4, 0.7, 1.0]);</textarea><div class="code-actions"><button id="run-code" class="button run">▶ Ejecutar en la escena</button><button id="code-example" class="button">Ejemplo</button></div><p id="code-status" class="code-status">Listo para ejecutar.</p></div>
+      <div class="p2-controls"><h3>Controles de la práctica</h3><p class="microcopy">Selecciona una pieza y modifica su articulación. También puedes usar las teclas <code>1–5</code>, flechas y arrastrar sobre la escena.</p><div class="piece-buttons"><button class="button piece active" data-piece="platform">1 Plataforma</button><button class="button piece" data-piece="boom">2 Pluma</button><button class="button piece" data-piece="stick">3 Brazo</button><button class="button piece" data-piece="bucket">4 Cazo</button><button class="button piece" data-piece="mesh">5 Malla</button></div><p id="selection-status" class="code-status">Pieza seleccionada: plataforma</p></div>
     </aside>
 
     <section class="math card" aria-labelledby="math-title">
