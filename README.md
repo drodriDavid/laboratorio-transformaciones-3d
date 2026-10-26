@@ -2,6 +2,8 @@
 
 Aplicación educativa estática para practicar transformaciones en Informática Gráfica. La interfaz está centrada en una escena 3D grande construida con Three.js, con excavadora jerárquica, malla cilíndrica, luces, ejes y rejilla; incluye controles de articulación, selección, arrastre, animación, transformaciones, inspección de matrices y un editor ejecutable de llamadas `mat4.*`.
 
+El botón **Explorar la P2** abre un recorrido visual de cinco conceptos: construcción de mallas, árbol jerárquico, selección por pieza, arrastre con límites y animación temporal. Cada pop-up tiene una acción que selecciona o mueve la parte correspondiente en la escena.
+
 ## Ejecutar localmente
 
 No necesita instalación ni backend. Como el navegador bloquea algunos recursos al abrir `index.html` directamente, sirve la carpeta con cualquier servidor estático:
