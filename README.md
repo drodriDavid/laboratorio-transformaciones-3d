@@ -1,6 +1,6 @@
 # Laboratorio de transformaciones 3D
 
-Aplicación educativa estática para practicar transformaciones en Informática Gráfica. Incluye una escena WebGL con cubo, ejes y rejilla, controles de traslación/rotación/escalado, seis órdenes de composición, inspección de matrices, comparación entre `TRS` y `SRT` y un editor ejecutable de llamadas `mat4.*`.
+Aplicación educativa estática para practicar transformaciones en Informática Gráfica. La interfaz está centrada en una escena 3D grande con excavadora jerárquica, malla cilíndrica, ejes y rejilla; incluye controles de articulación, selección, arrastre, animación, transformaciones, inspección de matrices y un editor ejecutable de llamadas `mat4.*`.
 
 ## Ejecutar localmente
 
