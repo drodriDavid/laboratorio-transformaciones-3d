@@ -3,71 +3,52 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Laboratorio interactivo de transformaciones 3D con WebGL y glMatrix">
-  <title>Transformaciones 3D · Informática Gráfica</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="focus-3d.css">
-  <link rel="stylesheet" href="guide.css">
-  <link rel="stylesheet" href="fullscreen.css">
+  <meta name="description" content="Laboratorio visual e interactivo de la práctica 2 de Informática Gráfica con Three.js">
+  <title>P2 · Laboratorio 3D</title>
+  <link rel="stylesheet" href="lab.css">
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">INFORMÁTICA GRÁFICA · P2</p>
-      <h1>Laboratorio de transformaciones 3D</h1>
-      <p class="lede">Experimenta con un cubo y observa cómo el orden de las operaciones cambia el resultado.</p>
-    </div>
-    <a class="github-link" href="https://github.com" target="_blank" rel="noreferrer">Listo para GitHub Pages ↗</a>
-  </header>
-
-  <main class="layout">
-    <section class="stage card" aria-labelledby="scene-title">
-      <div class="section-heading">
-        <div><span class="tag">INFORMÁTICA GRÁFICA · P2</span><h2 id="scene-title">Explora la práctica en 3D</h2></div>
-        <span id="drag-hint" class="hint">Clic para seleccionar · arrastra para mover · rueda para zoom</span>
+  <main class="stage">
+    <canvas id="gl-canvas" data-i18n-aria="canvasLabel" aria-label="Escena 3D interactiva"></canvas>
+    <div id="webgl-error" class="error hidden" role="alert"></div>
+    <header class="topbar">
+      <div><span class="eyebrow" data-i18n="course">INFORMÁTICA GRÁFICA · P2</span><h1 data-i18n="title">Aprende experimentando en 3D</h1></div>
+      <div class="top-actions"><label class="language"><span data-i18n="language">Idioma</span><select id="language-select" aria-label="Idioma / Language"><option value="es">Español</option><option value="en">English</option></select></label><button id="fullscreen-button" data-i18n="fullscreen">⛶ Ocultar navegador</button></div>
+    </header>
+    <nav class="concept-panel panel" data-i18n-aria="conceptsLabel" aria-label="Conceptos P2">
+      <span class="eyebrow" data-i18n="journey">EXPLORA LA PRÁCTICA</span><h2 data-i18n="concepts">Conceptos P2</h2>
+      <div class="concept-list">
+        <button data-concept="0"><span>01</span><span data-i18n="lesson0">Mallas y normales</span></button>
+        <button data-concept="1"><span>02</span><span data-i18n="lesson1">Jerarquía y pivotes</span></button>
+        <button data-concept="2"><span>03</span><span data-i18n="lesson2">Selección de piezas</span></button>
+        <button data-concept="3"><span>04</span><span data-i18n="lesson3">Arrastre y límites</span></button>
+        <button data-concept="4"><span>05</span><span data-i18n="lesson4">Animación y cámaras</span></button>
       </div>
-      <div class="canvas-wrap"><canvas id="gl-canvas" aria-label="Escena 3D interactiva"></canvas><div id="webgl-error" class="webgl-error hidden"></div></div>
-      <div class="legend"><span><i class="dot red"></i>X</span><span><i class="dot green"></i>Y</span><span><i class="dot blue"></i>Z</span><span><i class="wire"></i>referencia</span><span><i class="solid"></i>objeto activo</span></div>
-      <div class="p2-toolbar"><div><span class="tag">RECORRIDO P2</span><strong id="scene-mode-label">Excavadora jerárquica</strong></div><div class="p2-actions"><button id="fullscreen-button" class="button fullscreen">⛶ Pantalla completa</button><button id="guide-button" class="button guide">✦ Explorar la P2</button><button id="mode-excavator" class="button active">Malla + jerarquía</button><button id="mode-cube" class="button">Transformaciones</button><button id="animate-button" class="button">▶ Animar</button><button id="views-button" class="button">1/4 vistas</button></div></div>
-    </section>
-
-    <aside class="controls card hidden" id="controls-panel" aria-label="Controles de transformación">
-      <div class="section-heading"><div><span class="tag">CONTROLES</span><h2>Transforma el cubo</h2></div><button id="reset-button" class="button ghost">Reset</button></div>
-      <div class="presets"><span class="label">Ejemplos</span><button class="button preset" data-preset="identity">Identidad</button><button class="button preset" data-preset="rotate-translate">Girar + mover</button><button class="button preset" data-preset="non-uniform">Escala no uniforme</button></div>
-      <div class="control-group"><h3>Traslación <code>T</code></h3><div class="sliders" id="translation-controls"></div></div>
-      <div class="control-group"><h3>Rotación <code>R</code> <span class="unit">grados</span></h3><div class="sliders" id="rotation-controls"></div></div>
-      <div class="control-group"><h3>Escalado <code>S</code></h3><div class="sliders" id="scale-controls"></div></div>
-      <div class="order-box"><label for="order-select">Orden de llamadas glMatrix</label><select id="order-select"><option value="TRS">translate → rotate → scale (TRS)</option><option value="TSR">translate → scale → rotate (TSR)</option><option value="RTS">rotate → translate → scale (RTS)</option><option value="RST">rotate → scale → translate (RST)</option><option value="STR">scale → translate → rotate (STR)</option><option value="SRT">scale → rotate → translate (SRT)</option></select><p class="microcopy">En matrices columna y vectores columna, la primera llamada queda a la derecha: se aplica la última transformación primero.</p></div>
-      <div class="code-lab"><div class="code-lab-heading"><h3>Prueba tus llamadas OpenGL / glMatrix</h3><span class="live-badge">EJECUTABLE</span></div><p class="microcopy">Edita las líneas y pulsa ejecutar. Se admiten <code>mat4.translate</code>, <code>rotateX/Y/Z</code> y <code>scale</code>.</p><textarea id="code-input" spellcheck="false" aria-label="Código glMatrix editable">mat4.translate(M, M, [1.2, 0.3, 0.0]);
-mat4.rotateY(M, M, [0.61]);
-mat4.scale(M, M, [1.4, 0.7, 1.0]);</textarea><div class="code-actions"><button id="run-code" class="button run">▶ Ejecutar en la escena</button><button id="code-example" class="button">Ejemplo</button></div><p id="code-status" class="code-status">Listo para ejecutar.</p></div>
-      <div class="p2-controls"><h3>Controles de la práctica</h3><p class="microcopy">Selecciona una pieza y modifica su articulación. También puedes usar las teclas <code>1–5</code>, flechas y arrastrar sobre la escena.</p><div class="piece-buttons"><button class="button piece active" data-piece="platform">1 Plataforma</button><button class="button piece" data-piece="boom">2 Pluma</button><button class="button piece" data-piece="stick">3 Brazo</button><button class="button piece" data-piece="bucket">4 Cazo</button><button class="button piece" data-piece="mesh">5 Malla</button></div><p id="selection-status" class="code-status">Pieza seleccionada: plataforma</p></div>
+      <p class="tip" data-i18n="mouseHint">Clic: seleccionar · arrastrar: mover pieza · Mayús + arrastrar: cámara · rueda: zoom.</p>
+      <button id="controls-toggle" aria-controls="controls-panel" aria-expanded="true" data-i18n="hideControls">Ocultar controles</button>
+      <button id="guide-button" data-i18n="showGuide">Abrir explicación</button>
+    </nav>
+    <aside id="guide-modal" class="guide-panel panel" aria-labelledby="guide-title">
+      <button id="guide-close" class="close" data-i18n-aria="closeGuide" aria-label="Cerrar explicación">×</button>
+      <span id="guide-step-label" class="eyebrow"></span><h2 id="guide-title"></h2><p id="guide-body"></p><pre id="guide-visual"></pre>
+      <div class="exercise"><span class="eyebrow" data-i18n="tryYourself">AHORA TÚ</span><p id="exercise-task"></p><p id="exercise-status" role="status" aria-live="polite"></p></div>
+      <button id="guide-action" class="primary" data-i18n="prepare">Preparar experimento</button><button id="guide-next" data-i18n="next">Siguiente →</button>
     </aside>
-
-    <section class="math card" aria-labelledby="math-title">
-      <div class="section-heading"><div><span class="tag">INSPECCIÓN</span><h2 id="math-title">Qué está pasando</h2></div><span id="order-summary" class="pill"></span></div>
-      <div class="math-grid"><div class="explain"><div class="callout"><strong id="effective-order"></strong><span id="effective-detail"></span></div><div class="matrix-row"><div><h3>Matriz modelo <code>M</code></h3><pre id="model-matrix"></pre></div><div><h3>Vértice de ejemplo</h3><pre id="vertex-result"></pre></div></div></div><div class="comparison"><h3>Comparación de órdenes</h3><p>Dos composiciones con los mismos valores pueden llevar el vértice a lugares distintos.</p><div class="compare-values"><div><span class="compare-label">T · R · S</span><strong id="trs-result"></strong></div><div><span class="compare-label">S · R · T</span><strong id="srt-result"></strong></div></div><div class="difference"><span>Diferencia entre resultados</span><strong id="difference-result"></strong></div></div></div>
+    <div id="view-labels" aria-hidden="true"></div>
+    <section id="controls-panel" class="control-dock panel" aria-labelledby="controls-title">
+      <div class="dock-heading"><h2 id="controls-title" data-i18n="controlsTitle">Prueba sobre el modelo</h2><div class="mode-buttons"><button id="mode-excavator" class="active" data-i18n="excavator">Excavadora</button><button id="mode-cube" data-i18n="transformations">Transformaciones</button></div><button id="reset-button" data-i18n="reset">↺ Reiniciar</button></div>
+      <div class="dock-grid">
+        <div class="joint-controls"><h3 data-i18n="joints">1 · Selecciona y mueve</h3><div class="piece-buttons"><button class="piece" data-piece="platform" data-i18n="platform">Plataforma</button><button class="piece" data-piece="boom" data-i18n="boom">Pluma</button><button class="piece" data-piece="stick" data-i18n="stick">Brazo</button><button class="piece" data-piece="bucket" data-i18n="bucket">Cazo</button><button class="piece" data-piece="mesh" data-i18n="mesh">Malla</button></div><div class="joint-input"><button id="joint-minus" data-i18n-aria="decrease" aria-label="Restar ángulo">−</button><input id="joint-slider" type="range" min="-180" max="180" step="1" data-i18n-aria="jointAngle" aria-label="Ángulo de la pieza"><output id="joint-value"></output><button id="joint-plus" data-i18n-aria="increase" aria-label="Sumar ángulo">+</button></div><p id="selection-status" class="muted" aria-live="polite"></p></div>
+        <div class="mesh-controls"><h3 data-i18n="meshTitle">2 · Construye la malla</h3><div class="mesh-divisions"><label>U <input id="mesh-u" type="range" min="3" max="64" value="16" data-i18n-aria="angularSegments" aria-label="Divisiones angulares"><output id="mesh-u-value">16</output></label><label>V <input id="mesh-v" type="range" min="1" max="8" value="4" data-i18n-aria="heightSegments" aria-label="Tramos verticales"><output id="mesh-v-value">4</output></label></div><div class="checks"><label><input id="wireframe" type="checkbox"><span data-i18n="wireframe">Triángulos</span></label><label><input id="normals" type="checkbox"><span data-i18n="normals">Normales</span></label><label><input id="flat-shading" type="checkbox"><span data-i18n="flat">Plano</span></label></div><p id="mesh-stats" class="muted"></p></div>
+        <div class="scene-controls"><h3 data-i18n="sceneTitle">3 · Observa el resultado</h3><div class="scene-buttons"><button id="animate-button" data-i18n="animate">▶ Animar</button><button id="orbit-button" data-i18n="orbit">Orbitar cámara</button><button id="views-button" data-i18n="fourViews">Cuatro vistas</button></div><p class="muted" data-i18n="shortcuts">1–5: seleccionar · flechas: mover · A: animar · V: vistas.</p></div>
+      </div>
+      <details id="transform-details"><summary data-i18n="transformLab">Laboratorio de transformaciones y código</summary><div class="transform-grid"><div><div id="transform-sliders"></div><label class="order-label"><span data-i18n="callOrder">Orden de llamadas</span><select id="order-select"><option>TRS</option><option>TSR</option><option>RTS</option><option>RST</option><option>STR</option><option>SRT</option></select></label></div><div class="code-lab"><p class="muted" data-i18n="codeHelp">Una llamada por línea. Rotaciones en radianes; también glMatrix.toRadian(grados). El editor interpreta un subconjunto, no ejecuta JavaScript arbitrario.</p><textarea id="code-input" spellcheck="false" data-i18n-aria="codeLabel" aria-label="Código de transformaciones">mat4.translate(M, M, [1.2, 0.3, 0]);
+mat4.rotateY(M, M, glMatrix.toRadian(35));
+mat4.scale(M, M, [1.4, 0.7, 1]);</textarea><button id="run-code" class="primary" data-i18n="run">▶ Ejecutar</button><p id="code-status" class="muted" role="status"></p></div><div><p id="effective-order" class="muted"></p><pre id="matrix-result"></pre><p id="vertex-result" class="muted"></p></div></div></details>
     </section>
-
-    <section class="theory card"><span class="tag">IDEA CLAVE</span><h2>Orden de llamadas ≠ orden visual</h2><div class="theory-columns"><p><strong>glMatrix compone matrices.</strong> Una llamada como <code>mat4.translate(M, M, t)</code> modifica <code>M</code>. Al trabajar con vectores columna, el producto que queda a la derecha actúa primero sobre el vértice.</p><p><strong>Prueba mental.</strong> Si eliges <code>TRS</code>, el código llama a T, luego R y luego S, pero el vértice recibe S → R → T. Cambia el orden y observa el cubo, la matriz y las coordenadas.</p><p><strong>Consejo para tu P2.</strong> Escribe siempre la convención (vectores fila/columna), la matriz acumulada y el orden de aplicación. Sin esa información, “primero” puede ser ambiguo.</p></div></section>
   </main>
-  <nav class="concept-panel" aria-label="Conceptos de la práctica 2">
-    <span class="tag">APRENDE EXPERIMENTANDO</span>
-    <h2>Conceptos P2</h2>
-    <p>Elige un concepto y pruébalo sobre el modelo.</p>
-    <div class="concept-list">
-      <button class="concept-button active" data-concept="0" aria-current="step"><span>01</span> Mallas y normales</button>
-      <button class="concept-button" data-concept="1"><span>02</span> Jerarquía padre–hijo</button>
-      <button class="concept-button" data-concept="2"><span>03</span> Selección de piezas</button>
-      <button class="concept-button" data-concept="3"><span>04</span> Arrastre y límites</button>
-      <button class="concept-button" data-concept="4"><span>05</span> Animación temporal</button>
-    </div>
-    <button id="controls-toggle" class="button" aria-controls="controls-panel" aria-expanded="false">Abrir controles</button>
-    <p class="concept-tip">1–5: elegir pieza<br>← →: mover articulación<br>Rueda: acercar o alejar</p>
-  </nav>
-  <aside id="guide-modal" class="guide-modal" aria-labelledby="guide-title"><div class="guide-card"><button id="guide-close" class="guide-close" aria-label="Cerrar explicación">×</button><div class="guide-progress"><span id="guide-step-label">CONCEPTO 1 DE 5</span><div><button class="step-dot active" data-step="0" aria-label="Concepto 1">1</button><button class="step-dot" data-step="1" aria-label="Concepto 2">2</button><button class="step-dot" data-step="2" aria-label="Concepto 3">3</button><button class="step-dot" data-step="3" aria-label="Concepto 4">4</button><button class="step-dot" data-step="4" aria-label="Concepto 5">5</button></div></div><span id="guide-tag" class="tag">MALLA</span><h2 id="guide-title">De vértices a triángulos</h2><p id="guide-body"></p><div id="guide-visual" class="guide-visual"></div><div class="guide-footer"><button id="guide-action" class="button run">Probar en la escena</button><button id="guide-next" class="button">Siguiente →</button></div></div></aside>
-  <footer><span>Laboratorio educativo autocontenido · WebGL + glMatrix</span><a href="README.md">Ver instrucciones del proyecto</a></footer>
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="i18n.js"></script>
   <script src="three-app.js"></script>
 </body>
 </html>
